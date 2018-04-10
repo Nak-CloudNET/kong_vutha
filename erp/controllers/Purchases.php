@@ -3169,10 +3169,10 @@ class Purchases extends MY_Controller
         $meta = array('page_title' => lang('view_supplier_balance'), 'bc' => $bc);
         $this->page_construct('purchases/view_supplier_balance', $meta, $this->data);
     }
-	
-	function supplier_balance_actions()
-	{
-		$this->form_validation->set_rules('form_action', lang("form_action"), 'required');
+
+    function supplier_balance_actions()
+    {
+        $this->form_validation->set_rules('form_action', lang("form_action"), 'required');
 
         if ($this->form_validation->run() == true) {
 
@@ -3190,68 +3190,66 @@ class Purchases extends MY_Controller
                     $this->load->library('excel');
                     $this->excel->setActiveSheetIndex(0);
                     $this->excel->getActiveSheet()->setTitle(lang('suppliers_report'));
-					$this->excel->getActiveSheet()->mergeCells('A1:H1');
+                    $this->excel->getActiveSheet()->mergeCells('A1:H1');
                     $this->excel->getActiveSheet()->SetCellValue('A1', lang('Suppliers_Balance'));
                     $this->excel->getActiveSheet()->SetCellValue('A2', lang('company'));
                     $this->excel->getActiveSheet()->SetCellValue('B2', lang('name'));
                     $this->excel->getActiveSheet()->SetCellValue('C2', lang('phone'));
-					$this->excel->getActiveSheet()->SetCellValue('D2', lang('email_address'));
-					$this->excel->getActiveSheet()->SetCellValue('E2', lang('total_purchases'));
-					$this->excel->getActiveSheet()->SetCellValue('F2', lang('total_amount'));
-					$this->excel->getActiveSheet()->SetCellValue('G2', lang('paid'));
-					$this->excel->getActiveSheet()->SetCellValue('H2', lang('balance'));
-					
-					$this->excel->getDefaultStyle()->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-					$this->excel->getActiveSheet()->getStyle('A1:H1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-					$this->excel->getActiveSheet()->getStyle('A1:H1')->getFont()
-                                              ->setName('Times New Roman')
-                                              ->setSize(20);
-					$this->excel->getActiveSheet()->getRowDimension(1)->setRowHeight(30);
-					
-                    $row = 3;
-					$sum_purcese = $sum_amount =$sum_payment= $sum_balance = 0;
-                    $start_date = $this->erp->fld($_POST['start_date']);
-                    $end_date = $this->erp->fld($_POST['end_date']);
+                    $this->excel->getActiveSheet()->SetCellValue('D2', lang('email_address'));
+                    $this->excel->getActiveSheet()->SetCellValue('E2', lang('total_purchases'));
+                    $this->excel->getActiveSheet()->SetCellValue('F2', lang('total_amount'));
+                    $this->excel->getActiveSheet()->SetCellValue('G2', lang('paid'));
+                    $this->excel->getActiveSheet()->SetCellValue('H2', lang('balance'));
 
+
+                    $this->excel->getDefaultStyle()->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+                    $this->excel->getActiveSheet()->getStyle('A1:H1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                    $this->excel->getActiveSheet()->getStyle('A1:H1')->getFont()
+                        ->setName('Times New Roman')
+                        ->setSize(20);
+                    $this->excel->getActiveSheet()->getRowDimension(1)->setRowHeight(30);
+                    $this->excel->getActiveSheet()->getStyle('A2:H2')->getFont()
+                        ->setName('Times New Roman')
+                        ->setSize(13);
+                    $this->excel->getActiveSheet()->getRowDimension(2)->setRowHeight(20);
+                    $row = 3;
+                    $sum_purcese = $sum_amount =$sum_payment= $sum_balance = 0;
                     foreach ($_POST['val'] as $id) {
-						
-                        $sc = $this->reports_model->getSupplierByID($id,$start_date,$end_date);	
-						$sum_purcese += $sc->total;
+
+                        $sc = $this->reports_model->getSupplierByID($id);
+                        $sum_purcese += $sc->total;
                         $sum_amount += $sc->total_amount;
                         $sum_balance += $sc->balance;
-                        $sum_payment += $sc->paid;					
+                        $sum_payment += $sc->paid;
                         $this->excel->getActiveSheet()->SetCellValue('A' . $row, $sc->company);
                         $this->excel->getActiveSheet()->SetCellValue('B' . $row, $sc->name);
                         $this->excel->getActiveSheet()->SetCellValue('C' . $row, $sc->phone." ");
-						$this->excel->getActiveSheet()->SetCellValue('D' . $row, $sc->email);
+                        $this->excel->getActiveSheet()->SetCellValue('D' . $row, $sc->email);
                         $this->excel->getActiveSheet()->SetCellValue('E' . $row, $this->erp->formatMoney($sc->total));
-						
-						$this->excel->getActiveSheet()->SetCellValue('F' . $row, $this->erp->formatMoney($sc->total_amount));
-                        $this->excel->getActiveSheet()->SetCellValue('G' . $row, $this->erp->formatMoney($sc->paid));
-						$this->excel->getActiveSheet()->SetCellValue('H' . $row, $this->erp->formatMoney($sc->balance));
-						
-						
-						$new_row = $row+1;
+                        $this->excel->getActiveSheet()->SetCellValue('F' . $row, $this->erp->formatDecimal($sc->total_amount));
+                        $this->excel->getActiveSheet()->SetCellValue('G' . $row, $this->erp->formatDecimal($sc->paid));
+                        $this->excel->getActiveSheet()->SetCellValue('H' . $row, $this->erp->formatDecimal($sc->balance));
+
+
+                        $new_row = $row+1;
                         $this->excel->getActiveSheet()->SetCellValue('E' . $new_row, $this->erp->formatDecimal($sum_purcese));
                         $this->excel->getActiveSheet()->SetCellValue('F' . $new_row, $this->erp->formatDecimal($sum_amount));
                         $this->excel->getActiveSheet()->SetCellValue('G' . $new_row, $this->erp->formatDecimal($sum_payment));
                         $this->excel->getActiveSheet()->SetCellValue('H' . $new_row, $this->erp->formatDecimal($sum_balance));
-						
                         $row++;
-						//$this->erp->print_arrays($sc);
                     }
-					//$this->erp->print_arrays($_POST['val']);
+                    //$this->erp->print_arrays($_POST['val']);
 
                     $this->excel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
-					$this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-					$this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(15);
-					$this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
-					$this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
-					$this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(30);
-					$this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(17);
-					$this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(17);
-					
-                    $this->excel->getDefaultStyle()->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+                    $this->excel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+                    $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(15);
+                    $this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+                    $this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
+                    $this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(30);
+                    $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(17);
+                    $this->excel->getActiveSheet()->getColumnDimension('H')->setWidth(17);
+
+
                     $filename = 'suppliers_balance_' . date('Y_m_d_H_i_s');
                     if ($this->input->post('form_action') == 'export_pdf') {
                         $styleArray = array('borders' => array('allborders' => array('style' => PHPExcel_Style_Border::BORDER_THIN)));
@@ -3269,15 +3267,15 @@ class Purchases extends MY_Controller
                         header('Content-Type: application/pdf');
                         header('Content-Disposition: attachment;filename="' . $filename . '.pdf"');
                         header('Cache-Control: max-age=0');
-						
-						$styleArray = array(
-                        'font'  => array(
-                            'bold'  => true
-                        )
-						);
-						
-						$this->excel->getActiveSheet()->getStyle('A2:H2')->applyFromArray($styleArray);
-						$this->excel->getActiveSheet()->getStyle('A2:H2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+                        $styleArray = array(
+                            'font'  => array(
+                                'bold'  => true,
+                            )
+                        );
+
+                        $this->excel->getActiveSheet()->getStyle('A2:H2')->applyFromArray($styleArray);
+                        $this->excel->getActiveSheet()->getStyle('A2:H2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                         $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'PDF');
                         return $objWriter->save('php://output');
                     }
@@ -3285,18 +3283,19 @@ class Purchases extends MY_Controller
                         header('Content-Type: application/vnd.ms-excel');
                         header('Content-Disposition: attachment;filename="' . $filename . '.xls"');
                         header('Cache-Control: max-age=0');
-						$styleArray = array(
-                        'font'  => array(
-                            'bold'  => true
-                        )
-						);
-						$this->excel->getActiveSheet()->getStyle('E' . $new_row.'')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border:: BORDER_THIN);
+                        $styleArray = array(
+                            'font'  => array(
+                                'bold'  => true
+                            )
+                        );
+                        $this->excel->getActiveSheet()->getStyle('E' . $new_row.'')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border:: BORDER_THIN);
                         $this->excel->getActiveSheet()->getStyle('E' . $new_row.'')->getFont()->setBold(true);
                         $this->excel->getActiveSheet()->getStyle('F' . $new_row.'')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border:: BORDER_THIN);
                         $this->excel->getActiveSheet()->getStyle('F' . $new_row.'')->getFont()->setBold(true);
                         $this->excel->getActiveSheet()->getStyle('G' . $new_row.'')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border:: BORDER_THIN);
                         $this->excel->getActiveSheet()->getStyle('G' . $new_row.'')->getFont()->setBold(true);
                         $this->excel->getActiveSheet()->getStyle('H' . $new_row.'')->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border:: BORDER_THIN);
+
                         $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
                         return $objWriter->save('php://output');
                     }
@@ -3311,7 +3310,7 @@ class Purchases extends MY_Controller
             $this->session->set_flashdata('error', validation_errors());
             redirect($_SERVER["HTTP_REFERER"]);
         }
-	}
+    }
 
 	
 	function getViewSupplierBalance($pdf = NULL, $xls = NULL)
