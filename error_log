@@ -1,0 +1,14 @@
+[28-Dec-2017 12:28:50 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[28-Dec-2017 12:32:17 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[28-Dec-2017 12:33:57 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[28-Dec-2017 17:07:55 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[28-Dec-2017 17:08:18 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[06-Jan-2018 11:00:42 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[06-Jan-2018 11:01:46 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[06-Jan-2018 11:02:06 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[11-Jan-2018 11:47:51 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[11-Jan-2018 11:48:01 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[11-Jan-2018 11:49:17 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[11-Jan-2018 14:58:41 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3211
+[11-Jan-2018 15:27:58 Asia/Phnom_Penh] PHP Fatal error:  Call to a member function getSupplierByID() on null in /home4/iclouder/public_html/kong_vutha/erp/controllers/Purchases.php on line 3219
+[14-Mar-2018 13:28:33 Asia/Phnom_Penh] PHP Parse error:  syntax error, unexpected ')' in /home4/iclouder/public_html/kong_vutha/erp/controllers/Reports.php on line 11429
